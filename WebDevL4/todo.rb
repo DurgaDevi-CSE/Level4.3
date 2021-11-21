@@ -17,29 +17,22 @@ class Todo < ActiveRecord::Base
   def self.due_later
     where("due_date > ?", Date.today)
   end
-  
+
   def self.show_list
     puts "My Todo-list\n\n"
     puts "Overdue\n"
-    puts overdue.map { |todo| todo.to_displayable_string }
+    puts overdue.map { |todolist| todolist.to_displayable_string }
     puts "\n\n"
     puts "Due Today\n"
-    puts due_today.map { |todo| todo.to_displayable_string }
+    puts due_today.map { |todolist| todolist.to_displayable_string }
     puts "\n\n"
     puts "Due Later\n"
-    puts due_later.map { |todo| todo.to_displayable_string }
+    puts due_later.map { |todolist| todolist.to_displayable_string }
     puts "\n\n"
   end
 
-  def self.add_task(todo_hash)
-    Todo.create!(todo_text: todo_hash[:todo_text], due_date: Date.today + todo_hash[:due_in_days], completed: false)
-  end
-
-  def self.mark_as_complete!(todo_id)
-    todo = Todo.find(todo_id)
-    todo.completed = true
-    todo.save
-    todo
+  def self.add_task(h)
+    Todo.create!(todo_text: h[:todo_text], due_date: Date.today + h[:due_in_days], completed: false)
   end
 
   def to_displayable_string
@@ -56,10 +49,10 @@ class Todo < ActiveRecord::Base
     @todos.map { |todo|  todo.to_displayable_string }
   end
   def self.mark_as_complete(todo_id)
-    todo_for_completion = find(todo_id)
-    todo_for_completion.completed = true
-    todo_for_completion.save
-    return todo_for_completion
+    todo_list = find(todo_id)
+    todo_list.completed = true
+    todo_list.save
+    return todo_list
   end
 end
-end 
+end
