@@ -45,9 +45,7 @@ class Todo < ActiveRecord::Base
     create!(todo_text: todo_text, due_date: due_date, completed: false)
   end
 
-  def self.to_displayable_list
-    @todos.map { |todo|  todo.to_displayable_string }
-  end
+  
   def self.mark_as_complete(todo_id)
     todo_list = find(todo_id)
     todo_list.completed = true
